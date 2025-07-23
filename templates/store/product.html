@@ -96,11 +96,11 @@
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 					<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-						<a href="{% url 'product' %}">All Products</a>
+						<a href="{% url 'product' %}"  style="color:black;" >All Products</a>
 					</button>
 					{% for category in links %}
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter="">
-						<a href="{{ category.get_url }}">{{ category.category_name }}  </a>
+						<a href="{{ category.get_url }}"  style="color:black;" >{{ category.category_name }}  </a>
 					</button>
 					{% endfor %} 
 
@@ -319,8 +319,14 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>	
 			</div>
+
+			<header class="border-bottom mb-4 pb-3">
+					<div class="form-inline">
+						<span class="mr-md-auto"><b>{{ product_count }}</b> Items found </span>
+					</div>
+			</header>
 
 			<div class="row isotope-grid">
                 {% if products %}
@@ -363,6 +369,34 @@
         		{% endif %}
 			</div>
 
+			<!-- paginator -->
+			<div>
+				<nav aria-label="...">
+					<ul class="pagination">
+						{% if products.has_previous %}
+							<li class="page-item"><a href="?page={{ products.previous_page_number }}" class="page-link">Previous</a></li>
+						{% else %}
+							<li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
+						{% endif %}
+
+
+						{% for i in products.paginator.page_range %}
+							{% if products.number == i %}
+								<li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+							{% else %}
+								<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+							{% endif %}
+						{% endfor %}
+
+						{% if products.has_next %}
+							<li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
+						{% else %}
+							<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+						{% endif %}
+
+					</ul>
+				</nav>
+			</div>
 			<!-- Load more -->
 			<div class="flex-c-m flex-w w-full p-t-45">
 				<a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
