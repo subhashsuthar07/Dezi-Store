@@ -66,7 +66,7 @@ def remove_cart_item(request, product_id):
 
 
 
-def cart(request, total=0,quantity=0, cart_items=None):
+def cart(request, total=0, quantity=0, cart_items=None):
     try:
         tax = 0
         grand_total = 0

@@ -3,8 +3,8 @@
 {% block content %}
 
 <!-- Cart -->
- <div class="m-b-12">
-	<div class="wrap-header-cart js-panel-cart">
+<div class="m-b-12">
+	<!--<div class="wrap-header-cart js-panel-cart">
 		<div class="s-full js-hide-cart"></div>
 
 		<div class="header-cart flex-col-l p-l-65 p-r-25">
@@ -86,11 +86,18 @@
 				</div>
 			</div>
 		</div>
+	</div>-->
+
+	<div class="container mt-5 pt-5">
+		{% if 'search' in request.path  %}
+			<h3>Serach Result</h3>
+		{% else %}
+			<h3>Our Store</h3>
+		{% endif %}
 	</div>
 
-	
 	<!-- Product -->
-	<div class="bg0 m-t-23 mt-5 pt-3 p-b-140">
+	<div class="bg0 m-t-23 mt-0 pt-0 p-b-140">
 		<div class="container">
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
@@ -122,15 +129,18 @@
 				</div>
 				
 				<!-- Search product -->
-				<div class="dis-none panel-search w-full p-t-10 p-b-15">
-					<div class="bor8 dis-flex p-l-15">
-						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
-							<i class="zmdi zmdi-search"></i>
-						</button>
-
-						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
-					</div>	
-				</div>
+				 
+					<div class="dis-none panel-search w-full p-t-10 p-b-15">
+						<form action="{% url 'search' %}" method='GET'>
+							<div class="bor8 dis-flex p-l-15">
+								<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+									<i class="zmdi zmdi-search"></i>
+								</button>
+									<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="keyword" placeholder="Search">
+							</div>
+						</form>	
+					</div>
+				
 
 				<!-- Filter -->
 				<div class="dis-none panel-filter w-full p-t-10">
@@ -322,7 +332,7 @@
 				</div>	
 			</div>
 
-			<header class="border-bottom mb-4 pb-3">
+			<header class="border-bottom mb-4 mt-0 pt-0 pb-3">
 					<div class="form-inline">
 						<span class="mr-md-auto"><b>{{ product_count }}</b> Items found </span>
 					</div>
@@ -372,29 +382,31 @@
 			<!-- paginator -->
 			<div>
 				<nav aria-label="...">
-					<ul class="pagination">
-						{% if products.has_previous %}
-							<li class="page-item"><a href="?page={{ products.previous_page_number }}" class="page-link">Previous</a></li>
-						{% else %}
-							<li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
-						{% endif %}
-
-
-						{% for i in products.paginator.page_range %}
-							{% if products.number == i %}
-								<li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+					{% if products.has_other_pages %}
+						<ul class="pagination">
+							{% if products.has_previous %}
+								<li class="page-item"><a href="?page={{ products.previous_page_number }}" class="page-link">Previous</a></li>
 							{% else %}
-								<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+								<li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
 							{% endif %}
-						{% endfor %}
 
-						{% if products.has_next %}
-							<li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
-						{% else %}
-							<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-						{% endif %}
 
-					</ul>
+							{% for i in products.paginator.page_range %}
+								{% if products.number == i %}
+									<li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+								{% else %}
+									<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+								{% endif %}
+							{% endfor %}
+
+							{% if products.has_next %}
+								<li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
+							{% else %}
+								<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+							{% endif %}
+
+						</ul>
+					{% endif %}
 				</nav>
 			</div>
 			<!-- Load more -->
